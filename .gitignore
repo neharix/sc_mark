@@ -1,0 +1,14 @@
+venv
+wsl_venv
+
+requests.log
+
+
+db.sqlite3
+*.sqlite3
+
+__pycache__
+
+dump/
+
+media/
