@@ -8,6 +8,17 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: {
+        layout: "MainLayout",
+      },
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("../views/AboutView.vue"),
+      meta: {
+        layout: "MainLayout",
+      },
     },
   ],
 });
