@@ -1,11 +1,17 @@
 <script setup>
-import { defineAsyncComponent, onBeforeMount, onMounted, ref, shallowRef, watch } from "vue";
+import { defineAsyncComponent, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import LoaderLayout from "@/layouts/LoaderLayout.vue";
 import { useUxStore } from "./stores/ux";
-// import { useAuthStore } from "@/stores/auth.store.js";
-// import { useTranslation } from "i18next-vue";
+import { useTranslation } from "i18next-vue";
 // import axiosInstance from "./api/axiosInstance";
+
+
+const { i18next } = useTranslation();
+
+i18next.on('languageChanged', (lng) => {
+  // axiosInstance.defaults.headers["Accept-Language"] = lng;
+})
 
 const uxStore = useUxStore();
 
