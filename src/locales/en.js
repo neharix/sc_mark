@@ -4,11 +4,20 @@ export default {
   turkmen: "Turkmen",
   russian: "Russian",
   english: "English (USA)",
+  username: "Username",
+  password: "Password",
+  // Errors
+  validateError: '"{{fieldName}}" field is required.',
   // Main Layout
-  mainPage: "Main Page",
   toggleTheme: "Toggle Theme",
   logout: "Logout",
   // Moderator Sidebar
   management: "Management",
   users: "Users",
+  // Main Page
+  mainPage: "Main Page",
+  // Login Page
+  loginPage: "Login page",
+  signIn: "Enter your username and password to log in",
+  login: "Login",
 };

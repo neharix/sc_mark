@@ -6,7 +6,7 @@ export default function useAnimations() {
 
   function enter(el, done) {
     const height = el.scrollHeight;
-    el.style.transition = "all 0.3s ease-in-out";
+    el.style.transition = "all 0.2s ease-in-out";
     el.style.height = height + "px";
     el.style.opacity = "1";
 
@@ -25,7 +25,7 @@ export default function useAnimations() {
     el.style.opacity = "1";
     void el.offsetHeight;
 
-    el.style.transition = "all 0.3s ease";
+    el.style.transition = "all 0.2s ease";
     el.style.height = "0";
     el.style.opacity = "0";
 

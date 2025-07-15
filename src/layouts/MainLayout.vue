@@ -8,9 +8,11 @@ import FlagTm from '@/components/Icons/Flags/FlagTm.vue';
 import FlagRu from '@/components/Icons/Flags/FlagRu.vue';
 import FlagUs from '@/components/Icons/Flags/FlagUs.vue';
 import SidebarLink from '@/components/Sidebars/SidebarLink.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const uxStore = useUxStore();
 const { isMobileMenuOpen, isSidebarOpen, theme } = storeToRefs(uxStore);
+const authStore = useAuthStore();
 
 const sidebar = shallowRef(LoadingSidebar);
 
@@ -113,7 +115,7 @@ onMounted(() => {
             <ul tabindex="0"
               class="dropdown-content bg-[#f6f6f6] dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-800 menu rounded-3xl z-1 w-52 p-2 shadow-sm">
               <li>
-                <button @click="console.log('Logout')"
+                <button @click="authStore.logout()"
                   class="flex items-center rounded-full text-red-600 dark:text-red-500">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
                     <rect width="24" height="24" fill="none" />

@@ -2,23 +2,23 @@
 import { defineAsyncComponent, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import LoaderLayout from "@/layouts/LoaderLayout.vue";
-import { useUxStore } from "./stores/ux";
 import { useTranslation } from "i18next-vue";
-// import axiosInstance from "./api/axiosInstance";
+import axiosInstance from "./api/axiosInstance";
 
 
-const { i18next } = useTranslation();
+const { i18next, t } = useTranslation();
+const route = useRoute();
 
 i18next.on('languageChanged', (lng) => {
-  // axiosInstance.defaults.headers["Accept-Language"] = lng;
+  let title = route.meta.title || "";
+  document.title = title.length > 0 ? t(title) + " | Sanly Çözgüt" : "Sanly Çözgüt";
+  axiosInstance.defaults.headers["Accept-Language"] = lng;
 })
 
-const uxStore = useUxStore();
 
 const layout = shallowRef(LoaderLayout)
 const layoutName = ref('LoaderLayout');
 
-const route = useRoute();
 watch(route, (newValue, oldValue) => {
   if (newValue.meta.layout !== layoutName.value) {
     layoutName.value = newValue.meta.layout ?? 'LoaderLayout';

@@ -4,11 +4,20 @@ export default {
   turkmen: "Туркменский",
   russian: "Русский",
   english: "Английский (США)",
+  username: "Имя пользователя",
+  password: "Пароль",
+  // Errors
+  validateError: 'Поле "{{fieldName}}" объязателен.',
   // Main Layout
-  mainPage: "Главная страница",
   toggleTheme: "Сменить тему",
   logout: "Выйти",
   // Moderator Sidebar
   management: "Управление",
   users: "Пользователи",
+  // Main Page
+  mainPage: "Главная страница",
+  // Login Page
+  loginPage: "Страница входа",
+  signIn: "Введите имя пользователя и пароль для входа",
+  login: "Вход",
 };

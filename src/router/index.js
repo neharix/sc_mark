@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import guards from "./guards";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +11,10 @@ const router = createRouter({
       component: HomeView,
       meta: {
         layout: "MainLayout",
+        roles: ["mod", "jr", "spec"],
+        title: "mainPage",
       },
+      beforeEnter: guards.authGuard,
     },
     {
       path: "/about",
@@ -18,7 +22,20 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
       meta: {
         layout: "MainLayout",
+        roles: ["mod", "jr", "spec"],
+        title: "mainPage",
       },
+      beforeEnter: guards.authGuard,
+    },
+    {
+      path: "/login",
+      name: "login-page",
+      component: () => import("../views/LoginView.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "loginPage",
+      },
+      beforeEnter: guards.anonGuard,
     },
   ],
 });

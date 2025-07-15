@@ -1,11 +1,10 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import { useTranslation } from "i18next-vue";
-import { useRoute } from "vue-router";
+import router from "@/router";
 
 export const useUxStore = defineStore("ux", () => {
   const { i18next } = useTranslation();
-  const route = useRoute();
 
   const language = ref(localStorage.getItem("language") || "tk");
   const isSidebarOpen = ref(true);
@@ -22,8 +21,6 @@ export const useUxStore = defineStore("ux", () => {
   function changeLanguage(lng) {
     i18next.changeLanguage(lng);
     language.value = lng;
-    let title = route.meta.title || "";
-    document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
 
     localStorage.setItem("language", language.value);
   }
@@ -43,6 +40,11 @@ export const useUxStore = defineStore("ux", () => {
     localStorage.setItem("theme", theme.value);
   }
 
+  function goToError(error) {
+    console.error(error);
+    router.push({ name: "login" });
+  }
+
   return {
     isSidebarOpen,
     isMobileMenuOpen,
@@ -52,5 +54,6 @@ export const useUxStore = defineStore("ux", () => {
     toggleTheme,
     toggleSidebar,
     toggleMobileMenu,
+    goToError,
   };
 });
