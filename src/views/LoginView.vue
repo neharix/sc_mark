@@ -56,7 +56,8 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="w-full md:w-3/4 lg:w-1/2 p-8 rounded-3xl bg-transparent dark:bg-transparent md:bg-white md:dark:bg-gray-800 md:shadow-md md:focus-within:scale-105 transition-all duration-300 ease-in-out">
+  <div
+    class="w-full md:w-3/4 lg:w-1/2 p-8 rounded-3xl bg-transparent dark:bg-transparent md:bg-white md:dark:bg-gray-800 md:shadow-md md:focus-within:scale-[102%] transition-all duration-300 ease-in-out">
     <h1 class="text-center text-2xl font-semibold text-sky-500 mb-2">Sanly Çözgüt</h1>
     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">{{ $t('signIn') }}</p>
     <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }" class="space-y-10">
@@ -68,7 +69,7 @@ onBeforeMount(async () => {
         </label>
         <transition name="fade-slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
           <div v-if="!!errors.username">
-            <p class="text-red-500 mt-2 mx-2" >{{ $t(errors.username, { fieldName: $t('username') }) }}</p>
+            <p class="text-red-500 mt-2 mx-2">{{ $t(errors.username, { fieldName: $t('username') }) }}</p>
           </div>
         </transition>
       </div>
@@ -107,10 +108,20 @@ onBeforeMount(async () => {
         </transition>
       </div>
       <div class="flex flex-wrap justify-center mt-16">
-        <button :disabled="isSubmitting"
-          class="btn-base-without-p hover:scale-105 px-4 py-3 w-1/2 text-lg">
+        <button :disabled="isSubmitting" class="hover:scale-105 px-4 py-3 w-1/2 text-lg flex justify-center"
+          :class="{ 'btn-secondary-without-p': isSubmitting, 'btn-base-without-p': !isSubmitting }">
           <!-- TODO add spinner -->
-          <span>{{ $t('login') }}</span>
+          <svg v-if="isSubmitting" xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
+            <rect width="24" height="24" fill="none" />
+            <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+              opacity="0.25" />
+            <path fill="currentColor"
+              d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z">
+              <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate"
+                values="0 12 12;360 12 12" />
+            </path>
+          </svg>
+          <span v-else>{{ $t('login') }}</span>
         </button>
       </div>
     </Form>
