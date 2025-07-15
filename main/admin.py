@@ -1,13 +1,12 @@
 from django.contrib import admin
-from unfold.admin import ModelAdmin as UnfoldModelAdmin
 
 from .models import *
 
 
 # Remove Unfold Admin
 @admin.register(Profile)
-class ProfileAdmin(UnfoldModelAdmin):
-    list_display = ["user", "id", "password", "otp"]
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ["user", "id"]
     readonly_fields = ("id",)
-    search_fields = ["user", "password", "otp"]
+    search_fields = ["user"]
 

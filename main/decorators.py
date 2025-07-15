@@ -8,14 +8,15 @@ from .objects import Null
 null = Null()
 
 
-def login_required(is_admin: bool = False):
+# def login_required(is_admin: bool = False):
+def login_required():
     def method_wrapper(view):
         def args_wrapper(request: HttpRequest, *args, **kwargs):
             if request.user.is_anonymous:
                 return Response({"detail": "Unauthorized"}, status=401)
 
-            if not request.user.is_superuser and is_admin:
-                return Response({"detail": "Permission denied"}, status=403)
+            # if not request.user.is_superuser and is_admin:
+            #     return Response({"detail": "Permission denied"}, status=403)
             return view(request, *args, **kwargs)
 
         return args_wrapper
