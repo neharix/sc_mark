@@ -9,7 +9,7 @@ const { isSidebarOpen } = storeToRefs(uxStore);
 <template>
   <div class="space-y-4 px-4">
     <div :class="{ 'skeleton': isSidebarOpen }"
-      class="flex items-center justify-center h-8 rounded-3xl bg-gray-800 w-full" v-for="i in 13">
+      class="flex items-center justify-center h-8 rounded-3xl dark:bg-gray-800 w-full" v-for="i in 13">
       <svg class="w-5 transition-opacity duration-300 ease-in-out" :class="[isSidebarOpen ? 'opacity-0' : 'opacity-50']"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <rect width="24" height="24" fill="none" />

@@ -13,14 +13,14 @@ import { useAuthStore } from '@/stores/auth';
 const uxStore = useUxStore();
 const { isMobileMenuOpen, isSidebarOpen, theme } = storeToRefs(uxStore);
 const authStore = useAuthStore();
+const { role } = storeToRefs(authStore);
 
 const sidebar = shallowRef(LoadingSidebar);
 
-const role = ref('moderator');
 
 watch(role, (newValue) => {
   switch (newValue) {
-    case "moderator":
+    case "mod":
       sidebar.value = ModeratorSidebar;
       break;
   }
@@ -28,7 +28,7 @@ watch(role, (newValue) => {
 
 onMounted(() => {
   switch (role.value) {
-    case "moderator":
+    case "mod":
       sidebar.value = ModeratorSidebar;
       break;
   }

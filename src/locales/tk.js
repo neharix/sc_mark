@@ -14,6 +14,12 @@ export default {
   // Moderator Sidebar
   management: "Dolandyryş",
   users: "Ulanyjylar",
+  juries: "Emin agzalar",
+  spectators: "Tomaşaçylar",
+  projects: "Taslamalar",
+  totalProjectsCount: "Umumy taslama sany",
+  rated: "Baha berilenler",
+  unrated: "Baha berilmedikler",
   // Main Page
   mainPage: "Esasy sahypa",
   // Login Page

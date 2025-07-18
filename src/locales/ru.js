@@ -14,6 +14,12 @@ export default {
   // Moderator Sidebar
   management: "Управление",
   users: "Пользователи",
+  juries: "Жюри",
+  spectators: "Зрители",
+  projects: "Проекты",
+  totalProjectsCount: "Общее количество проектов",
+  rated: "Оцененные",
+  unrated: "Неоцененные",
   // Main Page
   mainPage: "Главная страница",
   // Login Page

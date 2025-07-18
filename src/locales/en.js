@@ -14,6 +14,12 @@ export default {
   // Moderator Sidebar
   management: "Management",
   users: "Users",
+  juries: "Juries",
+  spectators: "Spectators",
+  projects: "Projects",
+  totalProjectsCount: "Total Projects Count",
+  rated: "Rated",
+  unrated: "Unrated",
   // Main Page
   mainPage: "Main Page",
   // Login Page
