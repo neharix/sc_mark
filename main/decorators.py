@@ -3,20 +3,22 @@ from typing import List
 from rest_framework.request import HttpRequest
 from rest_framework.response import Response
 
+from .models import Profile, Role
 from .objects import Null
 
 null = Null()
 
 
-# def login_required(is_admin: bool = False):
-def login_required():
+def login_required(roles: list[Role] | None = None):
     def method_wrapper(view):
         def args_wrapper(request: HttpRequest, *args, **kwargs):
             if request.user.is_anonymous:
                 return Response({"detail": "Unauthorized"}, status=401)
 
-            # if not request.user.is_superuser and is_admin:
-            #     return Response({"detail": "Permission denied"}, status=403)
+            if roles:
+                if Profile.objects.get(user=request.user).role not in roles:
+                    return Response({"detail": "Permission denied"}, status=403)
+
             return view(request, *args, **kwargs)
 
         return args_wrapper
