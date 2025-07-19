@@ -8,6 +8,32 @@ export default {
   password: "Пароль",
   // Errors
   validateError: 'Поле "{{fieldName}}" объязателен.',
+  // Data tables
+  id: "ID",
+  rows: "строк",
+  rowCount: "Количество строк",
+  tools: "Инструменты",
+  exportData: "Экспортировать выбранные элементы",
+  deleteData: "Удалить выбранные элементы",
+  deleteConfirmDesc: "Выбранный элемент будут безвозвратно удалены. Уверены?",
+  deleteSelectedConfirmDesc:
+    "Выбранные элементы будут безвозвратно удалены. Уверены?",
+  edit: "Изменить",
+  view: "Посмотреть",
+  delete: "Удалить",
+  filters: "Филтры",
+  resetAll: "Сбросить всё",
+  objectsCount: "Всего {{objectsCount}} элементов",
+  selectedObjectsCount: "{{selectedItemsCount}} элементов выбрано",
+  search: "Поиск",
+  // Roles
+  role: "Роль",
+  mod: "Модератор",
+  jr: "Жюри",
+  spec: "Наблюдатель",
+  def: "Обычный",
+  // Loader Layout
+  loading: "Загрузка",
   // Main Layout
   toggleTheme: "Сменить тему",
   logout: "Выйти",

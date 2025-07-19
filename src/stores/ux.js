@@ -6,6 +6,7 @@ import router from "@/router";
 export const useUxStore = defineStore("ux", () => {
   const { i18next } = useTranslation();
 
+  const toasts = ref([]);
   const language = ref(localStorage.getItem("language") || "tk");
   const isSidebarOpen = ref(true);
   const isMobileMenuOpen = ref(false);
@@ -45,6 +46,31 @@ export const useUxStore = defineStore("ux", () => {
     router.push({ name: "login" });
   }
 
+  function addToast(message, _type) {
+    const id = toasts.value.length;
+    toasts.value.push({ id, message, _type });
+    setTimeout(() => {
+      try {
+        toasts.value.splice(
+          toasts.value[
+            toasts.value.indexOf(toasts.value.find((obj) => obj.id === id))
+          ],
+          1
+        );
+      } catch (e) {
+        console.warn(e);
+      }
+    }, 5000);
+  }
+  function deleteToast(id) {
+    toasts.value.splice(
+      toasts.value[
+        toasts.value.indexOf(toasts.value.find((obj) => obj.id === id))
+      ],
+      1
+    );
+  }
+
   return {
     isSidebarOpen,
     isMobileMenuOpen,
@@ -55,5 +81,7 @@ export const useUxStore = defineStore("ux", () => {
     toggleSidebar,
     toggleMobileMenu,
     goToError,
+    addToast,
+    deleteToast,
   };
 });

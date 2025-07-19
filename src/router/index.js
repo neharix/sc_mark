@@ -17,13 +17,36 @@ const router = createRouter({
       beforeEnter: guards.authGuard,
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
+      path: "/users",
+      name: "users",
+      component: () => import("../views/UserViews/Users.vue"),
+      children: [
+        {
+          path: "",
+          name: "users-list",
+          component: () => import("../views/UserViews/List.vue"),
+          meta: {
+            layout: "MainLayout",
+            roles: ["mod"],
+            title: "users",
+          },
+          beforeEnter: guards.authGuard,
+        },
+        {
+          path: "add",
+          name: "add-user",
+          component: () => import("../views/UserViews/Add.vue"),
+          meta: {
+            layout: "MainLayout",
+            roles: ["mod"],
+            title: "addUser",
+          },
+        },
+      ],
       meta: {
         layout: "MainLayout",
-        roles: ["mod", "jr", "spec"],
-        title: "mainPage",
+        roles: ["mod"],
+        title: "users",
       },
       beforeEnter: guards.authGuard,
     },

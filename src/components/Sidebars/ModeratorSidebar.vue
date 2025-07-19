@@ -23,7 +23,7 @@ const { t } = useTranslation();
         </svg>
       </template>
       <template #default>
-        <sidebar-link name="about">
+        <sidebar-link name="users-list">
           <template #icon>
             <svg xmlns="http://www.w3.org/2000/svg" :class="{ 'w-6': isSidebarOpen, 'w-4': !isSidebarOpen }"
               viewBox="0 0 24 24">

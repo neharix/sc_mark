@@ -1,4 +1,5 @@
 <script setup>
+import ToastContainer from "./components/ToastContainer.vue";
 import { defineAsyncComponent, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import LoaderLayout from "@/layouts/LoaderLayout.vue";
@@ -32,5 +33,8 @@ watch(route, (newValue, oldValue) => {
 </script>
 
 <template>
-  <component :is="layout"></component>
+  <transition name="fade" mode="out-in">
+    <Component :is="layout" />
+  </transition>
+  <ToastContainer />
 </template>
