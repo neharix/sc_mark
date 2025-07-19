@@ -66,7 +66,7 @@ LOGGING = {
     },
 }
 
-REST_TITLE = "EDUSYSTEM API"
+REST_TITLE = "Sanly Çözgüt MARK API"
 
 ALLOWED_HOSTS = ["*"]
 

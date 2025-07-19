@@ -8,6 +8,7 @@ from main.models import Profile
 
 # Create your views here.
 
+
 @api_view(http_method_names=["GET"])
 @login_required()
 def get_user_data(request: HttpRequest):
@@ -20,3 +21,23 @@ def get_user_data(request: HttpRequest):
             "role": profile.role,
         }
     )
+
+
+@api_view(http_method_names=["GET"])
+@login_required()
+def home_api_view(request: HttpRequest):
+    profile = Profile.objects.get(user=request.user)
+    match profile.role:
+        case "mod":
+            return Response(
+                {
+                    "projects": 10,
+                    "ratedProjects": 3,
+                    "unratedProjects": 7,
+                    "juries": 10,
+                    "spectators": 20,
+                }
+            )
+
+        case _:
+            return Response({"detail": "Unknown role"}, status=403)

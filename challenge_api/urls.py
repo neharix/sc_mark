@@ -11,4 +11,6 @@ urlpatterns = [
     # Authentication routes
     path("token/", CustomTokenObtainPairView.as_view(), name="token-obtain-pair"),
     path("me/", get_user_data, name="user-data"),
+    # Special routes
+    path("home/", home_api_view),
 ]

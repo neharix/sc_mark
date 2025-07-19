@@ -34,7 +34,7 @@ class RequestLoggerMiddleware:
 class DrfTitleMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         if isinstance(response, HttpResponse):
-            postfix = getattr(settings, "REST_TITLE", "MARK API")
+            postfix = getattr(settings, "REST_TITLE", "Sanly Çözgüt MARK API")
             if (
                 hasattr(response, "content")
                 and b"django-rest-framework" in response.content
