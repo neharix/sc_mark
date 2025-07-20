@@ -45,6 +45,7 @@ async function defaultGuard(to, from, next) {
 async function authGuard(to, from, next) {
   const { t, i18next } = useTranslation();
   const authStore = useAuthStore();
+  const { user } = storeToRefs(authStore);
   const uxStore = useUxStore();
 
   if (!authStore.user) {
@@ -56,6 +57,14 @@ async function authGuard(to, from, next) {
   }
   while (authStore.isLoading) {
     await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+
+  if (
+    "restriction" in to.meta &&
+    to.meta.restriction in user.value.config &&
+    !user.value.config[to.meta.restriction]
+  ) {
+    return uxStore.goToError("page-403");
   }
 
   if (!to.meta.roles.includes(authStore.role)) {

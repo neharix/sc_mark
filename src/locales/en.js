@@ -6,8 +6,16 @@ export default {
   english: "English (USA)",
   username: "Username",
   password: "Password",
+  firstName: "First Name",
+  lastName: "Last Name",
+  email: "E-Mail",
+  confirmPassword: "Confirm Password",
+  confirm: "Confirm",
+  close: "Close",
   // Errors
-  validateError: '"{{fieldName}}" field is required.',
+  requiredError: '"{{fieldName}}" field is required.',
+  emailError: "This field requires you to enter your email address.",
+  internalServerError: "Internal Server Error",
   // Data tables
   id: "ID",
   rows: "rows",
@@ -19,8 +27,12 @@ export default {
     "Selected element will be permanently deleted. Do you confirm?",
   deleteSelectedConfirmDesc:
     "Selected elements will be permanently deleted. Do you confirm?",
+  add: "Add",
+  adding: "Adding",
   edit: "Edit",
+  editing: "Editing",
   view: "View",
+  update: "Update",
   delete: "Delete",
   filters: "Filters",
   resetAll: "Reset All",
@@ -33,6 +45,14 @@ export default {
   jr: "Jury",
   spec: "Spectator",
   def: "Default",
+  // Toasts
+  createToast: "{{object}} was successfully created",
+  createToastError: "An error occurred during the creation process",
+  editToast: "{{object}} was successfully edited",
+  editToastError: "An error occurred during the editing process",
+  deleteToast: "{{object}} was successfully deleted",
+  deleteToastError: "An error occurred during the deleting process",
+  notFoundToastError: "{{object}} not found",
   // Loader Layout
   loading: "Loading",
   // Main Layout
@@ -41,7 +61,6 @@ export default {
   // Moderator Sidebar
   management: "Management",
   users: "Users",
-  juries: "Juries",
   spectators: "Spectators",
   projects: "Projects",
   totalProjectsCount: "Total Projects Count",
@@ -53,4 +72,10 @@ export default {
   loginPage: "Login page",
   signIn: "Enter your username and password to log in",
   login: "Login",
+  wrongCredentials: "Incorrect username or password",
+  // Juries page
+  jury: "Jury",
+  juries: "Juries",
+  addJury: "Add Jury",
+  editJury: "Edit Jury",
 };

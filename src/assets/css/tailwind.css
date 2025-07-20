@@ -66,6 +66,10 @@
   @apply transition ease-in hover:ease-out duration-200 hover:bg-gray-100 dark:hover:bg-[#2c3648];
 }
 
+.main-bg {
+  @apply bg-white dark:bg-gray-900;
+}
+
 /* 
 .router-link-exact-active {
   @apply px-4 py-2 rounded-full bg-gray-100 text-gray-600 dark:text-white dark:bg-gray-300/20  active:text-gray-400 active:scale-90 transition-all duration-300 ease-out;

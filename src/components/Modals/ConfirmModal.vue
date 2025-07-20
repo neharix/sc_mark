@@ -36,8 +36,8 @@ defineExpose({
           <slot name="default"></slot>
         </div>
         <div class="modal-action">
-          <button class="btn-danger" @click="close">{{ $t('close') }}</button>
-          <button class="btn-primary" @click="confirm">{{ $t('confirm') }}</button>
+          <button class="btn-base-without-p px-4 py-2" @click="close">{{ $t('close') }}</button>
+          <button class="btn-base-without-p px-4 py-2" @click="confirm">{{ $t('confirm') }}</button>
         </div>
       </div>
     </div>

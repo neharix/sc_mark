@@ -6,8 +6,16 @@ export default {
   english: "Английский (США)",
   username: "Имя пользователя",
   password: "Пароль",
+  firstName: "Имя",
+  lastName: "Фамилия",
+  email: "Электронная почта",
+  confirmPassword: "Подтверждение пароля",
+  confirm: "Подтвердить",
+  close: "Закрыть",
   // Errors
-  validateError: 'Поле "{{fieldName}}" объязателен.',
+  requiredError: 'Поле "{{fieldName}}" объязателен.',
+  emailError: "В это поле нужно вводить электронную почту",
+  internalServerError: "Внутренняя ошибка сервера",
   // Data tables
   id: "ID",
   rows: "строк",
@@ -18,8 +26,12 @@ export default {
   deleteConfirmDesc: "Выбранный элемент будут безвозвратно удалены. Уверены?",
   deleteSelectedConfirmDesc:
     "Выбранные элементы будут безвозвратно удалены. Уверены?",
+  add: "Добавить",
+  adding: "Добавляем",
   edit: "Изменить",
+  editing: "Изменяем",
   view: "Посмотреть",
+  update: "Обновить",
   delete: "Удалить",
   filters: "Филтры",
   resetAll: "Сбросить всё",
@@ -32,6 +44,14 @@ export default {
   jr: "Жюри",
   spec: "Наблюдатель",
   def: "Обычный",
+  // Toasts
+  createToast: "{{object}} был(-а/-о) успешно создан(-а/-о)",
+  createToastError: "Произошла ошибка в процессе создания",
+  editToast: "{{object}} был(-а/-о) успешно изменен(-а/-о)",
+  editToastError: "Произошла ошибка в процессе изменения",
+  deleteToast: "{{object}} был(-а/-о) успешно удален(-а/-о)",
+  deleteToastError: "Произошла ошибка в процессе удаления",
+  notFoundToastError: "{{object}} не найден",
   // Loader Layout
   loading: "Загрузка",
   // Main Layout
@@ -40,7 +60,6 @@ export default {
   // Moderator Sidebar
   management: "Управление",
   users: "Пользователи",
-  juries: "Жюри",
   spectators: "Зрители",
   projects: "Проекты",
   totalProjectsCount: "Общее количество проектов",
@@ -52,4 +71,10 @@ export default {
   loginPage: "Страница входа",
   signIn: "Введите имя пользователя и пароль для входа",
   login: "Вход",
+  wrongCredentials: "Неправильное имя пользователя или пароль",
+  // Juries page
+  jury: "Жюри",
+  juries: "Жюри",
+  addJury: "Добавить жюри",
+  editJury: "Изменить жюри",
 };

@@ -17,30 +17,43 @@ const router = createRouter({
       beforeEnter: guards.authGuard,
     },
     {
-      path: "/users",
-      name: "users",
-      component: () => import("../views/UserViews/Users.vue"),
+      path: "/juries",
+      name: "juries",
+      component: () => import("../views/JuryViews/Juries.vue"),
       children: [
         {
           path: "",
-          name: "users-list",
-          component: () => import("../views/UserViews/List.vue"),
+          name: "juries-list",
+          component: () => import("../views/JuryViews/List.vue"),
           meta: {
             layout: "MainLayout",
             roles: ["mod"],
-            title: "users",
+            title: "juries",
           },
           beforeEnter: guards.authGuard,
         },
         {
           path: "add",
-          name: "add-user",
-          component: () => import("../views/UserViews/Add.vue"),
+          name: "add-jury",
+          component: () => import("../views/JuryViews/Add.vue"),
           meta: {
             layout: "MainLayout",
             roles: ["mod"],
-            title: "addUser",
+            title: "addJury",
+            restriction: "canModeratorAddJury",
           },
+          beforeEnter: guards.authGuard,
+        },
+        {
+          path: "edit/:id",
+          name: "edit-jury",
+          component: () => import("../views/JuryViews/Edit.vue"),
+          meta: {
+            layout: "MainLayout",
+            roles: ["mod"],
+            title: "editJury",
+          },
+          beforeEnter: guards.authGuard,
         },
       ],
       meta: {

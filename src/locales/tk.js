@@ -6,8 +6,16 @@ export default {
   english: "Iňlisçe (ABŞ)",
   username: "Ulanyjy ady",
   password: "Açar sözi",
+  firstName: "Ady",
+  lastName: "Familiýasy",
+  email: "E-Mail",
+  confirmPassword: "Açar sözüniň tassyklamasy",
+  confirm: "Tassyklamak",
+  close: "Ýapmak",
   // Errors
-  validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
+  requiredError: '"{{fieldName}}" meýdançasy hökmanydyr.',
+  emailError: "Bu meýdança, E-Mail salgyňyzy girizmegiňizi talap edýär.",
+  internalServerError: "Içki serwer ýalňyşlygy",
   // Data tables
   id: "ID",
   rows: "setir",
@@ -19,8 +27,12 @@ export default {
     "Saýlanan element yza gaýduwsyz ýok ediler. Hereketi tassyklaýarsyňyzmy?",
   deleteSelectedConfirmDesc:
     "Saýlanan elementler yza gaýduwsyz ýok ediler. Hereketi tassyklaýarsyňyzmy?",
+  add: "Goşmak",
+  adding: "Goşylýar",
   edit: "Üýtgetmek",
+  editing: "Üýtgedilýär",
   view: "Görmek",
+  update: "Täzelemek",
   delete: "Ýok etmek",
   filters: "Süzgüçler",
   resetAll: "Täzelemek",
@@ -33,6 +45,14 @@ export default {
   jr: "Emin agza",
   spec: "Tomaşaçy",
   def: "Ýönekeý",
+  // Toasts
+  createToast: "{{object}} üstünlikli döredildi",
+  createToastError: "Hasaba alma prosesinde ýalňyşlyk ýüze çykdy",
+  editToast: "{{object}} üstünlikli üýtgedildi",
+  editToastError: "Üýtgetme prosesinde ýalňyşlyk ýüze çykdy",
+  deleteToast: "{{object}} üstünlikli ýok edildi",
+  deleteToastError: "Ýok etme prosesinde ýalňyşlyk ýüze çykdy",
+  notFoundToastError: "{{object}} tapylmady",
   // Loader Layout
   loading: "Ýükleme",
   // Main Layout
@@ -41,7 +61,6 @@ export default {
   // Moderator Sidebar
   management: "Dolandyryş",
   users: "Ulanyjylar",
-  juries: "Emin agzalar",
   spectators: "Tomaşaçylar",
   projects: "Taslamalar",
   totalProjectsCount: "Umumy taslama sany",
@@ -53,4 +72,10 @@ export default {
   loginPage: "Giriş sahypasy",
   signIn: "Giriş ýerine ýetirmek üçin ulanyjy adyňyzy we açar sözüňizi giriziň",
   login: "Giriş",
+  wrongCredentials: "Ýalňyş ulanyjy ady ýa-da açar sözi",
+  // Juries page
+  jury: "Emin agza",
+  juries: "Emin agzalar",
+  addJury: "Emin agza goşmak",
+  editJury: "Emin agzany üýtgetmek",
 };

@@ -2,7 +2,7 @@
 <template>
   <div class="min-h-screen w-full flex items-center justify-center bg-white dark:bg-gray-900">
     <div>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-16" viewBox="0 0 24 24">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-16 mx-auto" viewBox="0 0 24 24">
         <rect width="24" height="24" fill="none" />
         <path fill="currentColor" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
           opacity="0.25" />

@@ -29,9 +29,13 @@ export const useAuthStore = defineStore("auth", () => {
       loginStatus.value = "authorized";
       isAuthenticated.value = true;
     } catch (error) {
-      loginStatus.value = "wrongCredentials";
-      isAuthenticated.value = false;
-      console.error("Login failed", error);
+      console.log(error.response.status);
+      if (error.response.status === 401) {
+        loginStatus.value = "wrongCredentials";
+        console.log(loginStatus.value);
+        isAuthenticated.value = false;
+        console.error("Login failed", error);
+      }
     }
   }
 
@@ -43,7 +47,7 @@ export const useAuthStore = defineStore("auth", () => {
         loginStatus.value = "authorized";
         isAuthenticated.value = true;
       } else {
-        loginStatus.value = "unauthorized";
+        // loginStatus.value = "unauthorized";
         isAuthenticated.value = false;
       }
       isLoading.value = false;
@@ -56,7 +60,9 @@ export const useAuthStore = defineStore("auth", () => {
     token.value = null;
     user.value = null;
     isAuthenticated.value = false;
-    loginStatus.value = "unauthorized";
+    if (loginStatus.value !== "wrongCredentials") {
+      loginStatus.value = "unauthorized";
+    }
     localStorage.removeItem("access_token");
     delete axiosInstance.defaults.headers["Authorization"];
     router.push({ name: "login-page" });

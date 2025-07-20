@@ -76,6 +76,7 @@ export const useUxStore = defineStore("ux", () => {
     isMobileMenuOpen,
     theme,
     language,
+    toasts,
     changeLanguage,
     toggleTheme,
     toggleSidebar,

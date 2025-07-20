@@ -23,7 +23,7 @@ const { t } = useTranslation();
         </svg>
       </template>
       <template #default>
-        <sidebar-link name="users-list">
+        <sidebar-link name="juries-list">
           <template #icon>
             <svg xmlns="http://www.w3.org/2000/svg" :class="{ 'w-6': isSidebarOpen, 'w-4': !isSidebarOpen }"
               viewBox="0 0 24 24">
@@ -36,7 +36,7 @@ const { t } = useTranslation();
             </svg>
           </template>
           <template #default>
-            {{ $t('users') }}
+            {{ $t('juries') }}
           </template>
         </sidebar-link>
       </template>

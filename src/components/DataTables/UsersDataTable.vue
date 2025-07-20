@@ -6,15 +6,13 @@ import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import ConfirmModal from '../Modals/ConfirmModal.vue';
 import { useRoute } from 'vue-router';
-import { useTranslation } from 'i18next-vue';
-import { useUxStore } from '@/stores/ux';
+import { useAuthStore } from '@/stores/auth';
 
 const dataTableStore = useDataTableStore();
-const { t } = useTranslation();
 const route = useRoute();
-const store = useUsersStore()
-const { deleteStatus, updateStatus, createStatus } = storeToRefs(store);
-const uxStore = useUxStore();
+const store = useUsersStore();
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore)
 
 const props = defineProps({
   data: Array,
@@ -73,8 +71,8 @@ const checkboxClicked = (id) => {
 }
 
 const applySearch = () => {
-  router.push({ name: 'users-list', query: { ...route.query, search: searchQuery.value } }).then(() => {
-    emit('update')
+  router.push({ name: 'juries-list', query: { ...route.query, search: searchQuery.value } }).then(() => {
+    emit('update');
   });
 };
 
@@ -128,33 +126,21 @@ const sort = (column) => {
 };
 const isOpen = ref(false);
 
-
-watch(deleteStatus, (newVal, oldVal) => {
-  if (newVal) {
-    if (newVal === 'success') {
-      uxStore.addToast(t('deleteToast', { object: t('user') }), 'success');
-    } else if (newVal === 'error') {
-      uxStore.addToast(t('deleteToastError'), 'error');
-    }
-  }
-  deleteStatus.value = null;
-})
-
 watch(currentPage, (newVal) => {
-  router.push({ name: 'users-list', query: { ...route.query, page: newVal } }).then(() => {
+  router.push({ name: 'juries-list', query: { ...route.query, page: newVal } }).then(() => {
     emit('update')
   });
 })
 watch(sortColumn, (newVal) => {
   setTimeout(() => {
-    router.push({ name: 'users-list', query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
+    router.push({ name: 'juries-list', query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
       emit('update');
     })
   }, 50)
 })
 
 watch(sortOrder, (newVal) => {
-  router.push({ name: 'users-list', query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
+  router.push({ name: 'juries-list', query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
     emit('update');
   })
 })
@@ -167,27 +153,6 @@ onBeforeMount(() => {
   } else {
     localStorage.setItem("rowsPerPage", 10)
   }
-})
-
-
-onMounted(async () => {
-  if (updateStatus.value) {
-    if (updateStatus.value === 'success') {
-      uxStore.addToast(t("editToast", { object: t('user') }), 'success');
-    } else if (updateStatus.value === 'error') {
-      uxStore.addToast(t('deleteToastError'), 'error');
-    }
-  }
-  updateStatus.value = null;
-
-  if (createStatus.value) {
-    if (createStatus.value === 'success') {
-      uxStore.addToast(t("createToast", { object: t('user') }), 'success');
-    } else if (createStatus.value === 'error') {
-      uxStore.addToast(t('createToastError'), 'error');
-    }
-  }
-  createStatus.value = null;
 })
 
 
@@ -205,37 +170,11 @@ async function deleteItem() {
 }
 
 async function deleteItems(model, identificators) {
-  await dataTableStore.deleteSelectedItems(model, identificators);
-  emit('update');
-}
-
-async function toggleFilter(key, value) {
-  let query = route.query;
-
-  if (value == route.query[key]) {
-    delete query[key];
-    await router.push({ name: 'users-list', query: { ...query } })
+  await dataTableStore.deleteSelectedItems(model, identificators).then(() => {
     emit('update');
-  } else {
-    query[key] = value;
-    await router.push({ name: 'users-list', query: { ...query } })
-    emit('update');
-  }
+  });
 }
 
-async function resetFilter(key) {
-  let query = route.query;
-  switch (key) {
-    case 'all':
-      delete query['region'];
-      delete query['country'];
-      break;
-    default:
-      delete query[key]
-  }
-  await router.push({ name: 'users-list', query: { ...query } })
-  emit('update');
-}
 
 </script>
 
@@ -256,8 +195,8 @@ async function resetFilter(key) {
       {{ $t('deleteSelectedConfirmDesc') }}
     </template>
   </confirm-modal>
-  <div class="w-full rounded-lg shadow-sm">
-    <div class="pt-1 rounded-t-2xl bg-white dark:bg-gray-900">
+  <div class="w-full rounded-2xl shadow-sm">
+    <div class="main-bg pt-1 rounded-t-2xl">
       <div class="flex items-center justify-between space-x-2 py-3 px-4">
         <div class="flex items-center">
           <div class="dropdown">
@@ -276,61 +215,6 @@ async function resetFilter(key) {
           </div>
         </div>
         <div class="lg:w-1/3 flex items-center justify-end space-x-2">
-          <!-- <drawer-end>
-            <template #btn><svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M22 3H2l8 9.46V19l4 2v-8.54z" />
-              </svg></template>
-            <template #content>
-              <div class="flex justify-between items-center">
-                <p class="text-black dark:text-white m-2 select-none font-semibold text-xl">{{ $t('filters') }}</p>
-                <button class="btn-primary flex items-center space-x-2" @click="resetFilter('all')"><svg
-                    xmlns="http://www.w3.org/2000/svg" class="w-4" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2">
-                      <path d="M21 12a9 9 0 0 0-9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                      <path d="M3 3v5h5m-5 4a9 9 0 0 0 9 9a9.75 9.75 0 0 0 6.74-2.74L21 16" />
-                      <path d="M16 16h5v5" />
-                    </g>
-                  </svg><span>{{ $t('resetAll') }}</span></button>
-              </div>
-              <hr class="hr">
-              <div class="flex justify-between items-center">
-                <p class="text-black dark:text-white m-2 select-none font-semibold">{{ $t('regions') }}</p>
-                <button class="btn-primary" @click="resetFilter('region')"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-4" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2">
-                      <path d="M21 12a9 9 0 0 0-9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                      <path d="M3 3v5h5m-5 4a9 9 0 0 0 9 9a9.75 9.75 0 0 0 6.74-2.74L21 16" />
-                      <path d="M16 16h5v5" />
-                    </g>
-                  </svg></button>
-              </div>
-              <div>
-                <button class="m-2" @click="toggleFilter('region', item.id)"
-                  :class="{ 'btn-secondary': route.query.region != item.id, 'btn-primary': route.query.region == item.id, }"
-                  v-for="item in regions" :key="item.id">{{ item.name }}</button>
-              </div>
-              <div class="flex justify-between items-center">
-                <p class="text-black dark:text-white m-2 select-none font-semibold">{{ $t('countries') }}</p>
-                <button class="btn-primary" @click="resetFilter('country')"><svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-4" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2">
-                      <path d="M21 12a9 9 0 0 0-9-9a9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                      <path d="M3 3v5h5m-5 4a9 9 0 0 0 9 9a9.75 9.75 0 0 0 6.74-2.74L21 16" />
-                      <path d="M16 16h5v5" />
-                    </g>
-                  </svg></button>
-              </div>
-              <div>
-                <button class="m-2" @click="toggleFilter('country', item.id)"
-                  :class="{ 'btn-secondary': route.query.country != item.id, 'btn-primary': route.query.country == item.id, }"
-                  v-for="item in countries" :key="item.id">{{ item.name }}</button>
-              </div>
-            </template>
-          </drawer-end> -->
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn-secondary w-full">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
@@ -356,6 +240,12 @@ async function resetFilter(key) {
               <li>
                 <button @click="deleteSelectedModal.openModal()" class="flex items-center rounded-full">
                   {{ $t('deleteData') }}
+                </button>
+              </li>
+              <hr class="hr">
+              <li>
+                <button @click="$emit('update')" class="flex items-center rounded-full">
+                  {{ $t('update') }}
                 </button>
               </li>
             </ul>
@@ -391,29 +281,6 @@ async function resetFilter(key) {
           </label>
         </div>
 
-        <!-- <input v-model="searchQuery" type="text" @keyup.enter="applySearch" :placeholder="$t('search')"
-          :class="{ 'rounded-l-md': isSearching, 'rounded-md': !isSearching }"
-          class="w-full text-[0.8rem] md:text-sm dark:text-gray-300 transition duration-200 ease-in bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 focus:ring focus:ring-emerald-300 dark:focus:ring-emerald-800 focus:outline-none" />
-        <button @click="resetTable" v-if="isSearching"
-          class="py-2 select-none text-nowrap px-3 text-[0.7rem] md:text-sm rounded-r-md shadow-md bg-emerald-500 dark:bg-emerald-900 text-white ring-0 ring-emerald-200 dark:ring-emerald-800 active:ring-4 duration-100 ease-in active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6"
-            viewBox="0 0 24 24" version="1.1">
-            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g id="Reload">
-                <rect id="Rectangle" fill-rule="nonzero" x="0" y="0" width="24" height="24">
-                </rect>
-                <path
-                  d="M4,13 C4,17.4183 7.58172,21 12,21 C16.4183,21 20,17.4183 20,13 C20,8.58172 16.4183,5 12,5 C10.4407,5 8.98566,5.44609 7.75543,6.21762"
-                  id="Path" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                </path>
-                <path
-                  d="M9.2384,1.89795 L7.49856,5.83917 C7.27552,6.34441 7.50429,6.9348 8.00954,7.15784 L11.9508,8.89768"
-                  id="Path" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                </path>
-              </g>
-            </g>
-          </svg>
-        </button> -->
       </div>
     </div>
     <div class="w-full overflow-x-auto rounded-b-2xl">
@@ -446,9 +313,30 @@ async function resetFilter(key) {
                 ▲
               </span>
             </th>
-            <th class="table-head" @click="sort('role')">
-              {{ $t('role').toUpperCase() }}
-              <span :class="sortColumn === 'role' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+            <th class="table-head" @click="sort('last_name')">
+              {{ $t('lastName').toUpperCase() }}
+              <span :class="sortColumn === 'last_name' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+                class="ml-2 transition-transform duration-200 inline-block">
+                ▲
+              </span>
+            </th>
+            <th class="table-head" @click="sort('first_name')">
+              {{ $t('firstName').toUpperCase() }}
+              <span :class="sortColumn === 'first_name' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+                class="ml-2 transition-transform duration-200 inline-block">
+                ▲
+              </span>
+            </th>
+            <th class="table-head" @click="sort('email')">
+              {{ $t('email').toUpperCase() }}
+              <span :class="sortColumn === 'email' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+                class="ml-2 transition-transform duration-200 inline-block">
+                ▲
+              </span>
+            </th>
+            <th class="table-head" @click="sort('password')" v-if="user.config.canSeeJuryPassword">
+              {{ $t('password').toUpperCase() }}
+              <span :class="sortColumn === 'password' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
                 class="ml-2 transition-transform duration-200 inline-block">
                 ▲
               </span>
@@ -481,14 +369,27 @@ async function resetFilter(key) {
             }}
             </td>
             <td class="border-y border-gray-300 dark:border-gray-800 p-2 break-words text-[0.8rem]">{{
-              $t(item.role)
+              item.lastName
             }}
+            </td>
+            <td class="border-y border-gray-300 dark:border-gray-800 p-2 break-words text-[0.8rem]">{{
+              item.firstName
+            }}
+            </td>
+            <td class="border-y border-gray-300 dark:border-gray-800 p-2 break-words text-[0.8rem]">{{
+              item.email
+            }}
+            </td>
+            <td class="border-y border-gray-300 dark:border-gray-800 p-2 break-words text-[0.8rem]"
+              v-if="user.config.canSeeJuryPassword">{{
+                item.password
+              }}
             </td>
             <td class="border-y border-gray-300 dark:border-gray-800 p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
                   <button type="button" :key="item.id"
-                    @click="router.push({ name: 'edit-education-center', params: { id: item.id } })"
+                    @click="router.push({ name: 'edit-jury', params: { id: item.id } })"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-emerald-400 hover:bg-emerald-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-emerald-700 border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 select-none"
                     :title="$t('edit')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
@@ -503,18 +404,6 @@ async function resetFilter(key) {
                           </g>
                         </g>
                       </g>
-                    </svg>
-                  </button>
-                  <button type="button" :key="item.id"
-                    @click="router.push({ name: 'about-education-center', params: { id: item.id } })"
-                    class="px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
-                    :title="$t('view')">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5">
-                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2">
-                      </path>
                     </svg>
                   </button>
                   <button type="button" :key="item.id" @click="deleteItemConfirm(item.id)"

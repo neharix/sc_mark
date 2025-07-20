@@ -4,6 +4,7 @@ import I18NextVue from "i18next-vue";
 import i18next from "i18next";
 import VueECharts from "vue-echarts";
 import * as echarts from "echarts";
+import axiosInstance from "./api/axiosInstance";
 
 import "./assets/fonts/nunito/font.css";
 import "./assets/css/tailwind.css";
@@ -28,8 +29,8 @@ i18next
   })
   .then(() => {
     localStorage.setItem("language", language);
+    axiosInstance.defaults.headers["Accept-Language"] = language;
   });
-// axiosInstance.defaults.headers["Accept-Language"] = language;
 
 const app = createApp(App);
 

@@ -13,8 +13,8 @@ const authStore = useAuthStore();
 const isPwdVisible = ref(false);
 
 const schema = Yup.object().shape({
-  username: Yup.string().trim().required('validateError'),
-  password: Yup.string().required('validateError'),
+  username: Yup.string().trim().required('requiredError'),
+  password: Yup.string().required('requiredError'),
 });
 
 function onSubmit(values, { setErrors }) {
@@ -62,10 +62,10 @@ onBeforeMount(async () => {
     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">{{ $t('signIn') }}</p>
     <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }" class="space-y-10">
       <div class="relative">
-        <Field name="username" type="text" id="username" class="peer text-input" :placeholder="$t('username')"
+        <Field name="username" type="text" id="username" class="peer text-input" :placeholder="$t('username') + '*'"
           :class="{ 'is-invalid': errors.username }" />
         <label for="username" class="text-input-placeholder">
-          {{ $t('username') }}
+          {{ $t('username') + '*' }}
         </label>
         <transition name="fade-slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
           <div v-if="!!errors.username">
@@ -74,7 +74,7 @@ onBeforeMount(async () => {
         </transition>
       </div>
       <div class="relative">
-        <Field name="password" type="password" id="password" :placeholder="$t('password')" class="peer text-input"
+        <Field name="password" type="password" id="password" :placeholder="$t('password') + '*'" class="peer text-input"
           :class="{ 'is-invalid': errors.password }" />
         <div class="absolute top-0 right-0 p-4" @click="togglePwdVisibility">
           <svg v-if="isPwdVisible" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -99,7 +99,7 @@ onBeforeMount(async () => {
           </svg>
         </div>
         <label for="password" class="text-input-placeholder">
-          {{ $t('password') }}
+          {{ $t('password') + '*' }}
         </label>
         <transition name="fade-slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
           <div v-if="!!errors.password">
@@ -107,7 +107,7 @@ onBeforeMount(async () => {
           </div>
         </transition>
       </div>
-      <div class="flex flex-wrap justify-center mt-16">
+      <div class="flex flex-wrap justify-center mt-8">
         <button :disabled="isSubmitting" class="hover:scale-105 px-4 py-3 w-1/2 text-lg flex justify-center"
           :class="{ 'btn-secondary-without-p': isSubmitting, 'btn-base-without-p': !isSubmitting }">
           <svg v-if="isSubmitting" xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
@@ -123,8 +123,13 @@ onBeforeMount(async () => {
           <span v-else>{{ $t('login') }}</span>
         </button>
       </div>
+      <transition name="fade-slide" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+        <div v-if="authStore.loginStatus === 'wrongCredentials'">
+          <p class="text-red-500 text-center">{{ $t('wrongCredentials') }}</p>
+        </div>
+      </transition>
     </Form>
   </div>
-  </template>
+</template>
 
 <style scoped></style>

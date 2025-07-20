@@ -108,44 +108,45 @@ export const useUsersStore = defineStore("users", () => {
 
   async function create(data) {
     try {
-      const response = await axiosInstance.post("/users/", data);
-      if (response.status === 200) {
-        createStatus.value = "success";
-      } else {
-        createStatus.value = "error";
+      const response = await axiosInstance.post("/juries/", data);
+      if (response.status === 201) {
+        uxStore.addToast(t("createToast", { object: t("jury") }), "success");
       }
     } catch (e) {
-      createStatus.value = "error";
+      uxStore.addToast(t("createToastError"), "error");
     }
   }
 
   async function put(id, data) {
     try {
-      const response = await axiosInstance.put(`/users/${id}/`, data);
+      const response = await axiosInstance.put(`/juries/${id}/`, data);
       if (response.status === 200) {
-        updateStatus.value = "success";
-      } else {
-        updateStatus.value = "error";
+        uxStore.addToast(t("editToast", { object: t("jury") }), "success");
       }
     } catch (e) {
-      updateStatus.value = "error";
+      if (e.response?.status === 404) {
+        uxStore.addToast(
+          t("notFoundToastError", { object: t("jury") }),
+          "error"
+        );
+      } else {
+        uxStore.addToast(t("editToastError"), "error");
+      }
     }
   }
-
   async function get(id) {
     isLoading.value = true;
     try {
-      const response = await axiosInstance.get(`/users/${id}/`);
-      console.log(response.status);
-      if (!response.status) {
+      const response = await axiosInstance.get(`/juries/${id}/`);
+      user.value = response.data;
+    } catch (e) {
+      if (e.response.status === 404) {
         router.go(-1);
         uxStore.addToast(
-          t("notFoundToastError", { object: t("user") }),
+          t("notFoundToastError", { object: t("jury") }),
           "error"
         );
       }
-      user.value = response.data;
-    } catch (e) {
       console.error(e);
     } finally {
       isLoading.value = false;
@@ -160,7 +161,7 @@ export const useUsersStore = defineStore("users", () => {
     let pageSize = localStorage.getItem("rowsPerPage");
     let response = null;
     if (search) {
-      response = await axiosInstance.get("/users/", {
+      response = await axiosInstance.get("/juries/", {
         params: {
           page,
           page_size: pageSize,
@@ -170,7 +171,7 @@ export const useUsersStore = defineStore("users", () => {
         },
       });
     } else {
-      response = await axiosInstance.get("/users/", {
+      response = await axiosInstance.get("/juries/", {
         params: { page, page_size: pageSize, order, column },
       });
     }
@@ -181,10 +182,19 @@ export const useUsersStore = defineStore("users", () => {
   }
   async function _delete(id) {
     try {
-      const response = await axiosInstance.delete(`/users/${id}/`);
-      deleteStatus.value = "success";
+      const response = await axiosInstance.delete(`/juries/${id}/`);
+      if (response.status === 200) {
+        uxStore.addToast(t("deleteToast", { object: t("jury") }), "success");
+      }
     } catch (e) {
-      console.error("Error:", e);
+      if (e.response?.status === 404) {
+        uxStore.addToast(
+          t("notFoundToastError", { object: t("jury") }),
+          "error"
+        );
+      } else {
+        uxStore.addToast(t("deleteToastError"), "error");
+      }
     }
   }
 
