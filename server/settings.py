@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "djangorestframework_camel_case",
     "corsheaders",
+    "constance",
+    "constance.backends.database",
     "main.apps.MainConfig",
     "challenge_api.apps.ChallengeApiConfig",
 ]
@@ -121,23 +123,23 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(hours=12),
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DATABASE"),
-        "USER": env("POSTGRES_USERNAME"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env.int("POSTGRES_PORT"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env("POSTGRES_DATABASE"),
+#         "USER": env("POSTGRES_USERNAME"),
+#         "PASSWORD": env("POSTGRES_PASSWORD"),
+#         "HOST": env("POSTGRES_HOST"),
+#         "PORT": env.int("POSTGRES_PORT"),
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -184,7 +186,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-LANGUAGE_CODE = "tk"
+LANGUAGE_CODE = "en"
 
 LANGUAGES = (
     ("en", "English"),
@@ -208,3 +210,10 @@ MEDIA_URL = "/api/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+
+CONSTANCE_CONFIG = {
+    "CAN_ADD_JURY": (False, "Can a moderator add a jury?"),
+    "CAN_SEE_JURY_PASSWORD": (False, "Can the moderator see the jury passwords?"),
+}

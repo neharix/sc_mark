@@ -16,5 +16,6 @@ urlpatterns = [
     path("export/", export_data),
     path("delete/", delete_data),
     # User routes
-    path("users/", users_list_create),
+    path("juries/", juries_crud),
+    path("juries/<int:id>/", juries_crud),
 ]
